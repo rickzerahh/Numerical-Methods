@@ -46,6 +46,6 @@ def metodo_bisseccao(a, b, tolerancia, iteracoes_maximas):
         if iteracao == iteracoes_maximas:
             print("Atingimos o número máximos de Iterações")
         else:
-            ("A raiz aproximada é de: ", x)
+            print("A raiz aproximada é de: ", x)
 
             return x, iteracao
