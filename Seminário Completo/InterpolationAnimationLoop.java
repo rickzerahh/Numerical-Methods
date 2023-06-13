@@ -3,60 +3,60 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class InterpolationAnimationLoop extends JPanel implements ActionListener {
-    private static final int WIDTH = 400;
-    private static final int HEIGHT = 400;
-    private static final int DURATION = 2000; // Duração da animação em milissegundos
-    private static final int OBJECT_SIZE = 50;
-    private static final int START_X = 50;
-    private static final int START_Y = 50;
-    private static final int END_X = 300;
-    private static final int END_Y = 300;
+public class AnimacaoEmLoopInterpolacao extends JPanel implements ActionListener {
+    private static final int LARGURA = 400;
+    private static final int ALTURA = 400;
+    private static final int DURACAO = 2000; // Duração da animação em milissegundos
+    private static final int TAM_OBJETO = 50;
+    private static final int X_INICIAL = 50;
+    private static final int Y_INICIAL = 50;
+    private static final int X_FINAL = 300;
+    private static final int Y_FINAL = 300;
 
-    private long startTime;
-    private Timer timer;
-    private int currentX;
-    private int currentY;
-    private boolean reverse;
+    private long horaComeco;
+    private Timer tempo;
+    private int X_Atual;
+    private int Y_Atual;
+    private boolean reverso;
 
-    public InterpolationAnimationLoop() {
-        setPreferredSize(new Dimension(WIDTH, HEIGHT));
-        startTime = System.currentTimeMillis();
-        currentX = START_X;
-        currentY = START_Y;
-        reverse = false;
+    public AnimacaoEmLoopInterpolacao() {
+        setPreferredSize(new Dimension(LARGURA, ALTURA));
+        horaComeco = System.currentTimeMillis();
+        X_Atual = X_INICIAL;
+        Y_Atual = Y_INICIAL;
+        reverso = false;
 
-        timer = new Timer(10, this);
-        timer.start();
+        tempo = new Timer(10, this);
+        tempo.start();
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        long elapsedTime = System.currentTimeMillis() - startTime;
-        float t = (float) elapsedTime / DURATION;
+        long tempoPassado = System.currentTimeMillis() - horaComeco;
+        float t = (float) tempoPassado / DURACAO;
 
         if (t < 1.0f) {
-            if (!reverse) {
-                currentX = interpolate(START_X, END_X, t);
-                currentY = interpolate(START_Y, END_Y, t);
+            if (!reverso) {
+                X_Atual = interpolate(X_INICIAL, X_FINAL, t);
+                Y_Atual = interpolate(Y_INICIAL, Y_FINAL, t);
             } else {
-                currentX = interpolate(END_X, START_X, t);
-                currentY = interpolate(END_Y, START_Y, t);
+                X_Atual = interpolate(X_FINAL, X_INICIAL, t);
+                Y_Atual = interpolate(Y_FINAL, Y_INICIAL, t);
             }
         } else {
-            reverse = !reverse;
-            startTime = System.currentTimeMillis();
+            reverso = !reverso;
+            horaComeco = System.currentTimeMillis();
         }
 
         g.setColor(Color.RED);
-        g.fillRect(currentX, currentY, OBJECT_SIZE, OBJECT_SIZE);
+        g.fillRect(X_Atual, Y_Atual, TAM_OBJETO, TAM_OBJETO);
     }
 
     private int interpolate(int value1, int value2, float t) {
-        float result = value1 + (value2 - value1) * t * t;
-        return (int) result;
+        float resultado = value1 + (value2 - value1) * t * t;
+        return (int) resultado;
     }
 
     @Override
@@ -65,9 +65,9 @@ public class InterpolationAnimationLoop extends JPanel implements ActionListener
     }
 
     public static void main(String[] args) {
-        JFrame frame = new JFrame("Interpolation Animation Loop");
+        JFrame frame = new JFrame("Animação em Loop Interpolação");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().add(new InterpolationAnimationLoop());
+        frame.getContentPane().add(new AnimacaoEmLoopInterpolacao());
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
